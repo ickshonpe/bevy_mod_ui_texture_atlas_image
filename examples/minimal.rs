@@ -10,13 +10,7 @@ fn setup(
 ) {
     commands.spawn_bundle(Camera2dBundle::default());
     let image = asset_server.load("tileset_4x4.png");
-    let texture_atlas = 
-        TextureAtlas::from_grid(
-            image.clone(),
-            16. * Vec2::ONE, 
-            4, 
-            4
-        );
+    let texture_atlas = TextureAtlas::from_grid(image.clone(), 16. * Vec2::ONE, 4, 4);
 
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
     commands
@@ -32,21 +26,18 @@ fn setup(
         .with_children(|builder| {
             for index in [0, 5, 14] {
                 builder.spawn_bundle(TextureAtlasImageBundle {
-                    image: UiTextureAtlasImage { 
+                    image: UiTextureAtlasImage {
                         atlas: texture_atlas_handle.clone(),
-                        index
+                        index,
                     },
                     ..Default::default()
                 });
             }
-            builder.spawn_bundle(
-                ImageBundle {
-                    image: image.into(),
-                    ..Default::default()
-                }
-            );
+            builder.spawn_bundle(ImageBundle {
+                image: image.into(),
+                ..Default::default()
+            });
         });
-
 }
 
 fn main() {

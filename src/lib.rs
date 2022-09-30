@@ -2,12 +2,12 @@ use bevy::prelude::*;
 use bevy::render::Extract;
 use bevy::render::RenderApp;
 use bevy::render::RenderStage;
+use bevy::ui::widget::ImageMode;
 use bevy::ui::ExtractedUiNode;
 use bevy::ui::ExtractedUiNodes;
 use bevy::ui::FocusPolicy;
 use bevy::ui::RenderUiSystem;
 use bevy::ui::UiSystem;
-use bevy::ui::widget::ImageMode;
 
 #[derive(Component, Clone, Debug, Default, Reflect)]
 #[reflect(Component, Default)]
@@ -44,14 +44,13 @@ pub struct TextureAtlasImageBundle {
     pub computed_visibility: ComputedVisibility,
 }
 
-
 fn texture_atlas_image_node_system(
     texture_atlases: Res<Assets<TextureAtlas>>,
     mut query: Query<(&mut CalculatedSize, &UiTextureAtlasImage), With<ImageMode>>,
 ) {
     for (mut calculated_size, atlas_image) in &mut query {
         if let Some(atlas) = texture_atlases.get(&atlas_image.atlas) {
-            let rect_size = atlas.textures[atlas_image.index].size();            
+            let rect_size = atlas.textures[atlas_image.index].size();
             let size = Size::new(rect_size.x, rect_size.y);
             if size != calculated_size.size {
                 calculated_size.size = size;
@@ -60,6 +59,8 @@ fn texture_atlas_image_node_system(
     }
 }
 
+
+#[allow(clippy::type_complexity)]
 fn extract_texture_atlas_image_uinodes(
     mut extracted_uinodes: ResMut<ExtractedUiNodes>,
     images: Extract<Res<Assets<Image>>>,
@@ -106,8 +107,7 @@ pub struct UiTextureAtlasImagePlugin;
 
 impl Plugin for UiTextureAtlasImagePlugin {
     fn build(&self, app: &mut App) {
-        app
-            .register_type::<UiTextureAtlasImage>()
+        app.register_type::<UiTextureAtlasImage>()
             .add_system_to_stage(
                 CoreStage::PostUpdate,
                 texture_atlas_image_node_system.before(UiSystem::Flex),
@@ -118,11 +118,9 @@ impl Plugin for UiTextureAtlasImagePlugin {
             Err(_) => return,
         };
 
-        render_app
-            .add_system_to_stage(
-                RenderStage::Extract,
-                extract_texture_atlas_image_uinodes
-                .after(RenderUiSystem::ExtractNode)
-            );
+        render_app.add_system_to_stage(
+            RenderStage::Extract,
+            extract_texture_atlas_image_uinodes.after(RenderUiSystem::ExtractNode),
+        );
     }
 }
