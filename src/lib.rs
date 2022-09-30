@@ -13,6 +13,7 @@ use bevy::ui::widget::ImageMode;
 #[reflect(Component, Default)]
 pub struct UiTextureAtlasImage {
     pub atlas: Handle<TextureAtlas>,
+    // index of the image in the texture atlas
     pub index: usize,
 }
 
@@ -43,7 +44,7 @@ pub struct TextureAtlasImageBundle {
     pub computed_visibility: ComputedVisibility,
 }
 
-/// Updates calculated size of the node based on the image provided
+
 fn texture_atlas_image_node_system(
     texture_atlases: Res<Assets<TextureAtlas>>,
     mut query: Query<(&mut CalculatedSize, &UiTextureAtlasImage), With<ImageMode>>,
@@ -52,8 +53,6 @@ fn texture_atlas_image_node_system(
         if let Some(atlas) = texture_atlases.get(&atlas_image.atlas) {
             let rect_size = atlas.textures[atlas_image.index].size();            
             let size = Size::new(rect_size.x, rect_size.y);
-
-            // Update only if size has changed to avoid needless layout calculations
             if size != calculated_size.size {
                 calculated_size.size = size;
             }
@@ -82,11 +81,9 @@ fn extract_texture_atlas_image_uinodes(
         }
         if let Some(texture_atlas) = texture_atlases.get(&atlas_image.atlas) {
             let image = texture_atlas.texture.clone_weak();
-            // Skip loading images
             if !images.contains(&image) {
                 continue;
             }
-            // Skip completely transparent nodes
             if color.0.a() == 0.0 {
                 continue;
             }
