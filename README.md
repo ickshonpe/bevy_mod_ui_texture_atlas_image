@@ -28,7 +28,7 @@ App::new()
 
 Now you can spawn an `AtlasImageBundle` to show images from a TextureAtlas with Bevy UI.
 
-The only difference between `AtlasImageBundle` and `ImageBundle` is that instead of an image field with type `UiImage`, it has an `atlas_image` with type `UiAtlasImage`.
+The only difference between `AtlasImageBundle` and `ImageBundle` is that instead of an image field with type `UiImage`, it has an `atlas_image` field with type `UiAtlasImage`.
 
 ```rust
 commands
