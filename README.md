@@ -5,7 +5,7 @@
 
 Draw images from texture atlases with Bevy UI.
 
-![image](example.png)
+![image](bevy_mod_ui_texture_atlas_image.png)
 
 Supports Bevy 0.8
 
@@ -33,7 +33,7 @@ Then you can spawn a ```AtlasImageBundle``` to show images from a TextureAtlas w
 ```rust
 commands
     .spawn_bundle(AtlasImageBundle {
-        image: UiAtlasImage { 
+        atlas_image: UiAtlasImage { 
             atlas: texture_atlas_handle.clone(),
             index: 5
         },
