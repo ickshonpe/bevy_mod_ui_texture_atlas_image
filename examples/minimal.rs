@@ -1,7 +1,8 @@
 use bevy::prelude::*;
-use bevy_mod_ui_texture_atlas_image::TextureAtlasImageBundle;
-use bevy_mod_ui_texture_atlas_image::UiTextureAtlasImage;
-use bevy_mod_ui_texture_atlas_image::UiTextureAtlasImagePlugin;
+use bevy::render::texture::ImageSettings;
+use bevy_mod_ui_texture_atlas_image::AtlasImageBundle;
+use bevy_mod_ui_texture_atlas_image::UiAtlasImage;
+use bevy_mod_ui_texture_atlas_image::UiAtlasImagePlugin;
 
 fn setup(
     mut commands: Commands,
@@ -25,8 +26,8 @@ fn setup(
         })
         .with_children(|builder| {
             for index in [0, 5, 14] {
-                builder.spawn_bundle(TextureAtlasImageBundle {
-                    image: UiTextureAtlasImage {
+                builder.spawn_bundle(AtlasImageBundle {
+                    atlas_image: UiAtlasImage {
                         atlas: texture_atlas_handle.clone(),
                         index,
                     },
@@ -43,12 +44,13 @@ fn setup(
 fn main() {
     App::new()
         .insert_resource(WindowDescriptor {
-            width: 500.,
-            height: 100.,
+            width: 600.,
+            height: 128.,
             ..Default::default()
         })
+        .insert_resource(ImageSettings::default_nearest())
         .add_plugins(DefaultPlugins)
-        .add_plugin(UiTextureAtlasImagePlugin)
+        .add_plugin(UiAtlasImagePlugin)
         .add_startup_system(setup)
         .run();
 }

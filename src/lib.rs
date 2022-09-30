@@ -11,7 +11,7 @@ use bevy::ui::UiSystem;
 
 #[derive(Component, Clone, Debug, Default, Reflect)]
 #[reflect(Component, Default)]
-pub struct UiTextureAtlasImage {
+pub struct UiAtlasImage {
     pub atlas: Handle<TextureAtlas>,
     // index of the image in the texture atlas
     pub index: usize,
@@ -19,7 +19,7 @@ pub struct UiTextureAtlasImage {
 
 /// A UI node that is an image
 #[derive(Bundle, Clone, Debug, Default)]
-pub struct TextureAtlasImageBundle {
+pub struct AtlasImageBundle {
     /// Describes the size of the node
     pub node: Node,
     /// Describes the style including flexbox settings
@@ -31,7 +31,7 @@ pub struct TextureAtlasImageBundle {
     /// The color of the node
     pub color: UiColor,
     /// The texture atlas image of the node
-    pub image: UiTextureAtlasImage,
+    pub atlas_image: UiAtlasImage,
     /// Whether this node should block interaction with lower nodes
     pub focus_policy: FocusPolicy,
     /// The transform of the node
@@ -46,7 +46,7 @@ pub struct TextureAtlasImageBundle {
 
 fn texture_atlas_image_node_system(
     texture_atlases: Res<Assets<TextureAtlas>>,
-    mut query: Query<(&mut CalculatedSize, &UiTextureAtlasImage), With<ImageMode>>,
+    mut query: Query<(&mut CalculatedSize, &UiAtlasImage), With<ImageMode>>,
 ) {
     for (mut calculated_size, atlas_image) in &mut query {
         if let Some(atlas) = texture_atlases.get(&atlas_image.atlas) {
@@ -59,7 +59,6 @@ fn texture_atlas_image_node_system(
     }
 }
 
-
 #[allow(clippy::type_complexity)]
 fn extract_texture_atlas_image_uinodes(
     mut extracted_uinodes: ResMut<ExtractedUiNodes>,
@@ -70,7 +69,7 @@ fn extract_texture_atlas_image_uinodes(
             &Node,
             &GlobalTransform,
             &UiColor,
-            &UiTextureAtlasImage,
+            &UiAtlasImage,
             &ComputedVisibility,
             Option<&CalculatedClip>,
         )>,
@@ -103,15 +102,14 @@ fn extract_texture_atlas_image_uinodes(
     }
 }
 
-pub struct UiTextureAtlasImagePlugin;
+pub struct UiAtlasImagePlugin;
 
-impl Plugin for UiTextureAtlasImagePlugin {
+impl Plugin for UiAtlasImagePlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<UiTextureAtlasImage>()
-            .add_system_to_stage(
-                CoreStage::PostUpdate,
-                texture_atlas_image_node_system.before(UiSystem::Flex),
-            );
+        app.register_type::<UiAtlasImage>().add_system_to_stage(
+            CoreStage::PostUpdate,
+            texture_atlas_image_node_system.before(UiSystem::Flex),
+        );
 
         let render_app = match app.get_sub_app_mut(RenderApp) {
             Ok(render_app) => render_app,
