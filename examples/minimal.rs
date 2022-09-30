@@ -37,15 +37,6 @@ fn setup(
                 image: image.into(),
                 ..Default::default()
             });
-            for index in [3, 4, 15] {
-                builder.spawn_bundle(AtlasImageBundle {
-                    atlas_image: UiAtlasImage {
-                        atlas: texture_atlas_handle.clone(),
-                        index,
-                    },
-                    ..Default::default()
-                });
-            }
         });
 }
 
