@@ -5,7 +5,7 @@
 
 Draw images from texture atlases the with Bevy UI.
 
-![image](bevy_mod_ui_texture_atlas_image.png)
+![image](bevy_mod_ui_texture_atlas_image_long.png)
 
 Supports Bevy 0.8
 

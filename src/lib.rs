@@ -18,7 +18,7 @@ pub struct UiAtlasImage {
     pub index: usize,
 }
 
-/// A UI node that is an image
+/// A UI node that is an image from a texture atlas
 #[derive(Bundle, Clone, Debug, Default)]
 pub struct AtlasImageBundle {
     /// Describes the size of the node
