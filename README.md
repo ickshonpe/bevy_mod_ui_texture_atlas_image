@@ -26,7 +26,7 @@ App::new()
     .run()
 ```
 
-Now you can spawn an `AtlasImageBundle` to draw images from a `TextureAtlas` with Bevy UI.
+Now you can spawn an `AtlasImageBundle` to draw images from a `TextureAtlas` with the Bevy UI.
 
 The only difference between `AtlasImageBundle` and `ImageBundle` is that instead of an `image` field with type `UiImage`, it has an `atlas_image` field with type `UiAtlasImage`.
 
