@@ -4,7 +4,11 @@
 [![crates.io](https://img.shields.io/crates/d/bevy_mod_ui_texture_atlas_image)](https://crates.io/crates/bevy_mod_ui_texture_atlas_image)
 
 https://github.com/ickshonpe/bevy_mod_ui_texture_atlas_image
-Draw images from texture atlases with the Bevy UI.
+Draw images from texture atlases with Bevy UI.
+
+![image](example.png)
+
+
 
 Supports Bevy 0.8
 
