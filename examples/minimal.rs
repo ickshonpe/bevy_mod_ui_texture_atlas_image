@@ -31,7 +31,6 @@ fn setup(
                         atlas: texture_atlas_handle.clone(),
                         index,
                     },
-                    color: UiColor(Color::rgba(1., 1., 1., 0.5)),
                     ..Default::default()
                 });
             }
