@@ -7,7 +7,6 @@ Draw images from texture atlases with Bevy UI.
 
 ![image](example.png)
 
-
 Supports Bevy 0.8
 
 Cargo dependency:
