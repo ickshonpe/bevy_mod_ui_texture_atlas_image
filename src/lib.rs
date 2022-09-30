@@ -12,9 +12,9 @@ use bevy::ui::UiSystem;
 #[derive(Component, Clone, Debug, Default, Reflect)]
 #[reflect(Component, Default)]
 pub struct UiAtlasImage {
-    // asset handle of the texture atlas
+    /// asset handle of the texture atlas
     pub atlas: Handle<TextureAtlas>,
-    // index of the image in the texture atlas
+    /// index of the image in the texture atlas
     pub index: usize,
 }
 
