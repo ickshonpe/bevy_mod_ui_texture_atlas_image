@@ -26,9 +26,9 @@ App::new()
     .run()
 ```
 
-Then you can spawn a ```AtlasImageBundle``` to show images from a TextureAtlas with the Bevy UI.
+Now you can spawn an `AtlasImageBundle` to show images from a TextureAtlas with Bevy UI.
 
-```AtlasImageBundle``` is no different than ```ImageBundle``` except instead of a `UiImage` it takes a `UiAtlasImage`.
+The only difference between `AtlasImageBundle` and `ImageBundle` is that instead of an image field with type `UiImage`, it has an `atlas_image` with type `UiAtlasImage`.
 
 ```rust
 commands
