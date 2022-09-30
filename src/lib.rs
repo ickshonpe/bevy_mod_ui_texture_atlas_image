@@ -12,6 +12,7 @@ use bevy::ui::UiSystem;
 #[derive(Component, Clone, Debug, Default, Reflect)]
 #[reflect(Component, Default)]
 pub struct UiAtlasImage {
+    // asset handle of the texture atlas
     pub atlas: Handle<TextureAtlas>,
     // index of the image in the texture atlas
     pub index: usize,
@@ -81,10 +82,7 @@ fn extract_texture_atlas_image_uinodes(
         }
         if let Some(texture_atlas) = texture_atlases.get(&atlas_image.atlas) {
             let image = texture_atlas.texture.clone_weak();
-            if !images.contains(&image) {
-                continue;
-            }
-            if color.0.a() == 0.0 {
+            if !images.contains(&image) || color.0.a() == 0.0 {
                 continue;
             }
             let rect = texture_atlas.textures[atlas_image.index];

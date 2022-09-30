@@ -3,7 +3,7 @@
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](https://github.com/ickshonpe/bevy_mod_ui_texture_atlas_image)
 [![crates.io](https://img.shields.io/crates/d/bevy_mod_ui_texture_atlas_image)](https://crates.io/crates/bevy_mod_ui_texture_atlas_image)
 
-Draw images from texture atlases with Bevy UI.
+Draw images from texture atlases the with Bevy UI.
 
 ![image](bevy_mod_ui_texture_atlas_image.png)
 
@@ -16,7 +16,7 @@ bevy_mod_ui_texture_atlas_image = "0.1"
 
 ## Details
 
-To use add the ```UiAtlasImagePlugin``` plugin to your Bevy App:
+To use, add the ```UiAtlasImagePlugin``` plugin to your Bevy App:
 
 ```rust
 App::new()
