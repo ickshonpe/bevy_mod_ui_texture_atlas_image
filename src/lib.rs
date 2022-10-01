@@ -9,10 +9,11 @@ use bevy::ui::FocusPolicy;
 use bevy::ui::RenderUiSystem;
 use bevy::ui::UiSystem;
 
+/// A component that represents an image from a `TextureAtlas`.
 #[derive(Component, Clone, Debug, Default, Reflect)]
 #[reflect(Component, Default)]
 pub struct UiAtlasImage {
-    /// asset handle of the texture atlas
+    /// assets handle of the texture atlas
     pub atlas: Handle<TextureAtlas>,
     /// index of the image in the texture atlas
     pub index: usize,

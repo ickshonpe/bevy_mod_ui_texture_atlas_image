@@ -12,7 +12,7 @@ Supports Bevy 0.8
 
 ## Details
 
-To use, add this dependency to your project's Cargo.toml:
+Add the dependency to your project's Cargo.toml:
 
 ```toml
 bevy_mod_ui_texture_atlas_image = "0.1"
@@ -21,17 +21,18 @@ bevy_mod_ui_texture_atlas_image = "0.1"
 Then add the ```UiAtlasImagePlugin``` plugin to your Bevy App:
 
 ```rust
-App::new()
-    .add_plugins(DefaultPlugins)
-    .add_plugin(UiAtlasImagePlugin)
-    // ..rest of app
-    .run()
+use bevy_mod_ui_texture_atlas_image::*;
+
+fn main () {
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .add_plugin(UiAtlasImagePlugin)
+        // ..rest of app
+        .run()
+}
 ```
 
 Now you can spawn an `AtlasImageBundle` to draw images from a `TextureAtlas` with the Bevy UI.
-
-The only difference between `AtlasImageBundle` and `ImageBundle` is that instead of an `image` field with type `UiImage`, it has an `atlas_image` field with type `UiAtlasImage`.
-
 ```rust
 commands
     .spawn_bundle(AtlasImageBundle {
@@ -42,11 +43,19 @@ commands
         ..Default::default()
     });
 ```
-#
-### Minimal Example
+The only difference between an `AtlasImageBundle` and an `ImageBundle` is that instead of an `image` field with type `UiImage`, it has an `atlas_image` field with type `UiAtlasImage`.
 
-``` 
-cargo --run --example minimal
-```
+#
+### Examples
+
+* Displaying a single image from a texture atlas:
+    ``` 
+    cargo --run --example minimal
+    ```
+* Displaying three tiles from a texture atlas grid alongside the atlas's source image:
+    ``` 
+    cargo --run --example tiles
+    ```
+
 
 

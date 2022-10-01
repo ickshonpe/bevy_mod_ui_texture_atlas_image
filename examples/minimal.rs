@@ -1,8 +1,5 @@
 use bevy::prelude::*;
-use bevy::render::texture::ImageSettings;
-use bevy_mod_ui_texture_atlas_image::AtlasImageBundle;
-use bevy_mod_ui_texture_atlas_image::UiAtlasImage;
-use bevy_mod_ui_texture_atlas_image::UiAtlasImagePlugin;
+use bevy_mod_ui_texture_atlas_image::*;
 
 fn setup(
     mut commands: Commands,
@@ -10,44 +7,23 @@ fn setup(
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
 ) {
     commands.spawn_bundle(Camera2dBundle::default());
-    let image = asset_server.load("tileset_4x4.png");
-    let texture_atlas = TextureAtlas::from_grid(image.clone(), 16. * Vec2::ONE, 4, 4);
-    let texture_atlas_handle = texture_atlases.add(texture_atlas);
-    commands
-        .spawn_bundle(NodeBundle {
-            style: Style {
-                size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
-                justify_content: JustifyContent::Center,
-                ..Default::default()
-            },
-            color: UiColor(Color::NONE),
-            ..Default::default()
-        })
-        .with_children(|builder| {
-            for index in [0, 5, 14] {
-                builder.spawn_bundle(AtlasImageBundle {
-                    atlas_image: UiAtlasImage {
-                        atlas: texture_atlas_handle.clone(),
-                        index,
-                    },
-                    ..Default::default()
-                });
-            }
-            builder.spawn_bundle(ImageBundle {
-                image: image.into(),
-                ..Default::default()
-            });
-        });
+    let texture_atlas = TextureAtlas::from_grid(
+        asset_server.load("numbered_grid_texture_atlas.png"),
+        16. * Vec2::ONE,
+        4,
+        4,
+    );
+    commands.spawn_bundle(AtlasImageBundle {
+        atlas_image: UiAtlasImage {
+            atlas: texture_atlases.add(texture_atlas),
+            index: 0,
+        },
+        ..Default::default()
+    });
 }
 
 fn main() {
     App::new()
-        .insert_resource(WindowDescriptor {
-            width: 600.,
-            height: 128.,
-            ..Default::default()
-        })
-        .insert_resource(ImageSettings::default_nearest())
         .add_plugins(DefaultPlugins)
         .add_plugin(UiAtlasImagePlugin)
         .add_startup_system(setup)
