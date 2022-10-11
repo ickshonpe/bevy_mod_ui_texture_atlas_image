@@ -100,7 +100,6 @@ fn extract_texture_atlas_image_uinodes(
         }
     }
 }
-
 pub struct UiAtlasImagePlugin;
 
 impl Plugin for UiAtlasImagePlugin {

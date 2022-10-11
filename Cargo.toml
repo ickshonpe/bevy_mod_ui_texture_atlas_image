@@ -1,13 +1,13 @@
 [package]
 name = "bevy_mod_ui_texture_atlas_image"
-version = "0.1.9"
+version = "0.1.10"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 keywords = ["bevy", "texture", "atlas", "ui", "games"]
 categories = ["game-development", "graphics", "gui"]
 repository = "https://github.com/ickshonpe/bevy_mod_ui_texture_atlas_image"
 readme = "README.md"
-description = "Draw images from texture atlases the with Bevy UI"
+description = "Draw images from texture atlases with the Bevy UI"
 
 [dependencies.bevy]
 version = "0.8"
