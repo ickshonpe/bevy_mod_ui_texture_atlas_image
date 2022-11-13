@@ -7,7 +7,9 @@ use bevy::ui::ExtractedUiNode;
 use bevy::ui::ExtractedUiNodes;
 use bevy::ui::FocusPolicy;
 use bevy::ui::RenderUiSystem;
+use bevy::ui::UiStack;
 use bevy::ui::UiSystem;
+use bevy::window::WindowId;
 
 /// A component that represents an image from a `TextureAtlas`.
 #[derive(Component, Clone, Debug, Default, Reflect)]
@@ -31,7 +33,7 @@ pub struct AtlasImageBundle {
     /// The calculated size based on the given image
     pub calculated_size: CalculatedSize,
     /// The color of the node
-    pub color: UiColor,
+    pub color: BackgroundColor,
     /// The texture atlas image of the node
     pub atlas_image: UiAtlasImage,
     /// Whether this node should block interaction with lower nodes
@@ -53,7 +55,7 @@ fn texture_atlas_image_node_system(
     for (mut calculated_size, atlas_image) in &mut query {
         if let Some(atlas) = texture_atlases.get(&atlas_image.atlas) {
             let rect_size = atlas.textures[atlas_image.index].size();
-            let size = Size::new(rect_size.x, rect_size.y);
+            let size = Size::new(Val::Px(rect_size.x), Val::Px(rect_size.y));
             if size != calculated_size.size {
                 calculated_size.size = size;
             }
@@ -66,37 +68,47 @@ fn extract_texture_atlas_image_uinodes(
     mut extracted_uinodes: ResMut<ExtractedUiNodes>,
     images: Extract<Res<Assets<Image>>>,
     texture_atlases: Extract<Res<Assets<TextureAtlas>>>,
+    ui_stack: Extract<Res<UiStack>>,
+    windows: Extract<Res<Windows>>,
     uinode_query: Extract<
         Query<(
             &Node,
             &GlobalTransform,
-            &UiColor,
+            &BackgroundColor,
             &UiAtlasImage,
             &ComputedVisibility,
             Option<&CalculatedClip>,
         )>,
     >,
 ) {
-    for (uinode, global_transform, color, atlas_image, visibility, clip) in uinode_query.iter() {
-        if !visibility.is_visible() {
-            continue;
-        }
-        if let Some(texture_atlas) = texture_atlases.get(&atlas_image.atlas) {
-            let image = texture_atlas.texture.clone_weak();
-            if !images.contains(&image) || color.0.a() == 0.0 {
+    let scale_factor = windows.scale_factor(WindowId::primary()) as f32;
+    for (stack_index, entity) in ui_stack.uinodes.iter().enumerate() {
+        if let Ok((uinode, global_transform, color, atlas_image, visibility, clip)) =
+            uinode_query.get(*entity)
+        {
+            if !visibility.is_visible() {
                 continue;
             }
-            let rect = texture_atlas.textures[atlas_image.index];
-            let scale = uinode.size / rect.size();
-            let transform = global_transform.compute_matrix() * Mat4::from_scale(scale.extend(1.0));
-            extracted_uinodes.uinodes.push(ExtractedUiNode {
-                transform,
-                color: color.0,
-                rect,
-                image,
-                atlas_size: Some(texture_atlas.size),
-                clip: clip.map(|clip| clip.clip),
-            });
+            if let Some(texture_atlas) = texture_atlases.get(&atlas_image.atlas) {
+                let image = texture_atlas.texture.clone_weak();
+                if !images.contains(&image) || color.0.a() == 0.0 {
+                    continue;
+                }
+                let rect = texture_atlas.textures[atlas_image.index];
+                let scale = uinode.size() / rect.size();
+                let transform =
+                    global_transform.compute_matrix() * Mat4::from_scale(scale.extend(1.0));
+                extracted_uinodes.uinodes.push(ExtractedUiNode {
+                    stack_index,
+                    transform,
+                    background_color: color.0,
+                    rect,
+                    image,
+                    atlas_size: Some(texture_atlas.size),
+                    clip: clip.map(|clip| clip.clip),
+                    scale_factor,
+                });
+            }
         }
     }
 }
