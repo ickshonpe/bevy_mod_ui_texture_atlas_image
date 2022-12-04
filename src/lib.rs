@@ -46,6 +46,8 @@ pub struct AtlasImageBundle {
     pub visibility: Visibility,
     /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
     pub computed_visibility: ComputedVisibility,
+    /// Indicates the depth at which the node should appear in the UI
+    pub z_index: ZIndex,
 }
 
 fn texture_atlas_image_node_system(
