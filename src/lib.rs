@@ -118,11 +118,9 @@ pub struct UiAtlasImagePlugin;
 
 impl Plugin for UiAtlasImagePlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<UiAtlasImage>()
-        .add_system_to_stage(
+        app.register_type::<UiAtlasImage>().add_system_to_stage(
             CoreStage::PostUpdate,
-            texture_atlas_image_node_system
-            .before(UiSystem::Flex)
+            texture_atlas_image_node_system.before(UiSystem::Flex),
         );
 
         let render_app = match app.get_sub_app_mut(RenderApp) {

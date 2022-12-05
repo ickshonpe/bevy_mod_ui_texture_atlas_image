@@ -16,7 +16,7 @@ Draw images from texture atlases with the Bevy UI.
 Add the dependency to your project's Cargo.toml:
 
 ```toml
-bevy_mod_ui_texture_atlas_image = "0.2.1"
+bevy_mod_ui_texture_atlas_image = "0.2.2"
 ```
 
 Then add the ```UiAtlasImagePlugin``` plugin to your Bevy App:
@@ -36,7 +36,7 @@ fn main () {
 Now you can spawn an `AtlasImageBundle` to draw images from a `TextureAtlas` with the Bevy UI.
 ```rust
 commands
-    .spawn_bundle(AtlasImageBundle {
+    .spawn(AtlasImageBundle {
         atlas_image: UiAtlasImage { 
             atlas: texture_atlas_handle.clone(),
             index: 5
