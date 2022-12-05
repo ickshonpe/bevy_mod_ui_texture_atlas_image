@@ -88,7 +88,7 @@ fn extract_texture_atlas_image_uinodes(
         if let Ok((uinode, global_transform, color, atlas_image, visibility, clip)) =
             uinode_query.get(*entity)
         {
-            if !visibility.is_visible() {
+            if !visibility.is_visible() || uinode.size() == Vec2::ZERO {
                 continue;
             }
             if let Some(texture_atlas) = texture_atlases.get(&atlas_image.atlas) {
@@ -118,9 +118,11 @@ pub struct UiAtlasImagePlugin;
 
 impl Plugin for UiAtlasImagePlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<UiAtlasImage>().add_system_to_stage(
+        app.register_type::<UiAtlasImage>()
+        .add_system_to_stage(
             CoreStage::PostUpdate,
-            texture_atlas_image_node_system.before(UiSystem::Flex),
+            texture_atlas_image_node_system
+            .before(UiSystem::Flex)
         );
 
         let render_app = match app.get_sub_app_mut(RenderApp) {
