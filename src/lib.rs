@@ -88,12 +88,12 @@ fn extract_texture_atlas_image_uinodes(
         if let Ok((uinode, global_transform, color, atlas_image, visibility, clip)) =
             uinode_query.get(*entity)
         {
-            if !visibility.is_visible() || uinode.size() == Vec2::ZERO {
+            if !visibility.is_visible() || uinode.size() == Vec2::ZERO  || color.0.a() == 0.0 {
                 continue;
             }
             if let Some(texture_atlas) = texture_atlases.get(&atlas_image.atlas) {
                 let image = texture_atlas.texture.clone_weak();
-                if !images.contains(&image) || color.0.a() == 0.0 {
+                if !images.contains(&image) {
                     continue;
                 }
                 let rect = texture_atlas.textures[atlas_image.index];
