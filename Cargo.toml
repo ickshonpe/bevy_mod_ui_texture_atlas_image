@@ -12,7 +12,7 @@ description = "Draw images from texture atlases with the Bevy UI"
 [dependencies.bevy]
 version = "0.10"
 default_features= false
-features = ["bevy_asset", "bevy_render", "bevy_ui"]
+features = ["bevy_asset", "bevy_render", "bevy_ui", "bevy_sprite"]
 
 [dev-dependencies]
 bevy = "0.10"
