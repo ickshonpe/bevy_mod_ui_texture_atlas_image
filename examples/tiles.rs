@@ -31,10 +31,7 @@ fn setup(
             // Spawn UiAtlasImage ui nodes for the tiles numbered 0, 5, and 14.
             for index in [0, 5, 14] {
                 builder.spawn(AtlasImageBundle {
-                    atlas_image: UiAtlasImage {
-                        atlas: texture_atlas_handle.clone(),
-                        index,
-                    },
+                    atlas_image: UiAtlasImage::new(texture_atlas_handle.clone(), index),
                     ..Default::default()
                 });
             }
@@ -48,17 +45,9 @@ fn setup(
 
 fn main() {
     App::new()
-        // Change the default image filtering to nearest so the images are sharp.
         .add_plugins(
             DefaultPlugins
-                .set(WindowPlugin {
-                    window: WindowDescriptor {
-                        width: 600.,
-                        height: 128.,
-                        ..Default::default()
-                    },
-                    ..Default::default()
-                })
+                // Change the default image filtering to nearest so the images are sharp.
                 .set(ImagePlugin::default_nearest()),
         )
         .add_plugin(UiAtlasImagePlugin)

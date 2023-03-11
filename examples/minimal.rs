@@ -17,7 +17,7 @@ fn setup(
     );
     let atlas = texture_atlases.add(texture_atlas);
     commands.spawn(AtlasImageBundle {
-        atlas_image: UiAtlasImage { atlas, index: 0 },
+        atlas_image: UiAtlasImage::new(atlas, 0),
         ..Default::default()
     });
 }

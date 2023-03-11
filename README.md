@@ -7,16 +7,23 @@ Draw images from texture atlases with the Bevy UI.
 
 ![image](bevy_mod_ui_texture_atlas_image_long.png)
 
+* Version 0.3 supports Bevy 0.10
 * Version 0.2 supports Bevy 0.9
 * Version 0.1 supports Bevy 0.8
 #
 
 ## Details
 
-Add the dependency to your project's Cargo.toml:
+To use this crate, add its dependency to your project's Cargo.toml:
 
 ```toml
-bevy_mod_ui_texture_atlas_image = "0.2.2"
+bevy_mod_ui_texture_atlas_image = "0.3"
+```
+
+or use Cargo:
+
+```
+cargo add bevy_mod_ui_texture_atlas_image
 ```
 
 Then add the ```UiAtlasImagePlugin``` plugin to your Bevy App:
