@@ -34,6 +34,30 @@ impl UiAtlasImage {
     }
 }
 
+/// The tint color of the image
+///
+/// When combined with [`UiAtlasImage`], tints the provided texture, while still
+/// respecting transparent areas.
+#[derive(Component, Copy, Clone, Debug, Reflect)]
+#[reflect(Component, Default)]
+pub struct TintColor(pub Color);
+
+impl TintColor {
+    pub const DEFAULT: Self = Self(Color::WHITE);
+}
+
+impl Default for TintColor {
+    fn default() -> Self {
+        Self::DEFAULT
+    }
+}
+
+impl From<Color> for TintColor {
+    fn from(color: Color) -> Self {
+        Self(color)
+    }
+}
+
 /// A UI node that is an image from a texture atlas
 #[derive(Bundle, Clone, Debug, Default)]
 pub struct AtlasImageBundle {
@@ -43,8 +67,8 @@ pub struct AtlasImageBundle {
     pub style: Style,
     /// The calculated size based on the given image
     pub calculated_size: CalculatedSize,
-    /// The color of the image
-    pub color: BackgroundColor,
+    /// The tint color of the image
+    pub color: TintColor,
     /// The texture atlas image of the node
     pub atlas_image: UiAtlasImage,
     /// Whether this node should block interaction with lower nodes
@@ -86,7 +110,7 @@ fn extract_texture_atlas_image_uinodes(
         Query<(
             &Node,
             &GlobalTransform,
-            &BackgroundColor,
+            &TintColor,
             &UiAtlasImage,
             &ComputedVisibility,
             Option<&CalculatedClip>,
