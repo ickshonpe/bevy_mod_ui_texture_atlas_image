@@ -134,17 +134,17 @@ fn extract_texture_atlas_image_uinodes(
                 if !images.contains(&image) {
                     continue;
                 }
-                let rect = texture_atlas.textures[atlas_image.index];
+                let mut rect = texture_atlas.textures[atlas_image.index];
                 let scale = uinode.size() / rect.size();
-                let transform =
-                    global_transform.compute_matrix() * Mat4::from_scale(scale.extend(1.0));
+                rect.min *= scale;
+                rect.max *= scale;
                 extracted_uinodes.uinodes.push(ExtractedUiNode {
                     stack_index,
-                    transform,
+                    transform: global_transform.compute_matrix(),
                     color: color.0,
                     rect,
                     image,
-                    atlas_size: Some(texture_atlas.size),
+                    atlas_size: Some(texture_atlas.size * scale),
                     clip: clip.map(|clip| clip.clip),
                     flip_x: atlas_image.flip_x,
                     flip_y: atlas_image.flip_y,

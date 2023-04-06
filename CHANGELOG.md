@@ -1,3 +1,7 @@
+# Version 0.4.1
+* Fixed incorrect scaling of clipped texture atlas images.
+* Added a new example `clipped`.
+
 # Version 0.4.0
 * Added `ImageTint` component (by Nionidh).
 * Removed `BackgroundColor` from `AtlasImageBundle` and replaced it with `ImageTint` (by Nionidh).

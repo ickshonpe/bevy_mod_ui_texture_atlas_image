@@ -84,3 +84,7 @@ The differences between an `AtlasImageBundle` and an `ImageBundle` are that
     ```
     cargo --run --example alpha
     ```
+* Displaying images from a texture atlas with clipping.
+    ```
+    cargo --run --example clipped
+    ```
